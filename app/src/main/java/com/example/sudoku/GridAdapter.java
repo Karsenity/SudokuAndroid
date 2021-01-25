@@ -39,8 +39,6 @@ public class GridAdapter extends ArrayAdapter{
         System.out.println( "getView was called");
         Button btn = new Button(context);
 
-//        btn.setClickable(false);
-//        btn.setFocusable(false);
         int number = initialGrid.get(position);
 
         if (number == 0){
@@ -54,14 +52,13 @@ public class GridAdapter extends ArrayAdapter{
     }
 
     public void setSelected(int position){
-        int number = initialGrid.get(position);
-        if (number == 0){this.selected = position;}
-        else{this.selected = -1;}
-//        this.selected = position;
+        this.selected = position;
     }
 
     public void setValue(int position, int val){
-        this.numberGrid.set(position, val);
+        if (this.selected != -1) {
+            this.numberGrid.set(position, val);
+        }
         this.selected = -1;
     }
 
