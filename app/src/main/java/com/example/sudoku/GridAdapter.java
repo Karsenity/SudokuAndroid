@@ -14,16 +14,20 @@ import androidx.annotation.ArrayRes;
 
 import java.util.ArrayList;
 
+import static java.lang.Integer.valueOf;
+
 public class GridAdapter extends ArrayAdapter{
 
     private Context context;
     private ArrayList<Integer> numberGrid;
+    private ArrayList<Integer> initialGrid;
     private int selected;
 
-    public GridAdapter(Context context, ArrayList<Integer> grid){
+    public GridAdapter(Context context, ArrayList<Integer> grid, ArrayList<Integer> initialGrid){
         super(context, R.layout.activity_main, R.id.gridView, grid);
         this.context = context;
         this.numberGrid = grid;
+        this.initialGrid = initialGrid;
 
     }
 
@@ -32,25 +36,34 @@ public class GridAdapter extends ArrayAdapter{
     // The position is the actual button, i.e. the index
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        System.out.println("getView was called");
+        System.out.println( "getView was called");
         Button btn = new Button(context);
-        btn.setClickable(false);
-        btn.setFocusable(false);
 
-        btn.setText(String.valueOf(numberGrid.get(position)));
+//        btn.setClickable(false);
+//        btn.setFocusable(false);
+        int number = initialGrid.get(position);
 
+        if (number == 0){
+            btn.setClickable(false);
+            btn.setFocusable(false);
+        }
+
+
+        btn.setText(String.valueOf(number));
         return btn;
     }
 
     public void setSelected(int position){
-        this.selected = position;
+        int number = initialGrid.get(position);
+        if (number == 0){this.selected = position;}
+        else{this.selected = -1;}
+//        this.selected = position;
     }
 
     public void setValue(int position, int val){
         this.numberGrid.set(position, val);
+        this.selected = -1;
     }
 
-    public int getSelected(){
-        return this.selected;
-    }
+    public int getSelected(){return this.selected;}
 }

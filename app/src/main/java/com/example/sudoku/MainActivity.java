@@ -36,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
         grid.setNumColumns(9);
         ExampleGrid example = new ExampleGrid();
         ArrayList<Integer> exampleGrid = example.returnExampleGrid();
+        ArrayList<Integer> initialGrid = exampleGrid;
 
-        GridAdapter adapter = new GridAdapter(this, exampleGrid);
+        GridAdapter adapter = new GridAdapter(this, exampleGrid, initialGrid);
         grid.setAdapter(adapter);
 
         // Testing number-bar along bottom
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
+        adapter.setSelected(-1);
         numPad.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -78,17 +80,22 @@ public class MainActivity extends AppCompatActivity {
                 GridAdapter adapter = (GridAdapter) grid.getAdapter();
 
 
-                Optional<Integer> selected = Optional.ofNullable(adapter.getSelected());
+//                Optional<Integer> selected = Optional.ofNullable(adapter.getSelected());
                 int number = Integer.parseInt(((TextView) view).getText().toString());
-                selected.ifPresent(integer -> adapter.setValue(integer, number));
-                adapter.notifyDataSetChanged();
-//                if( number!=0 ){
-//                    selected.ifPresent(integer -> adapter.setValue(integer, number));
-//                    adapter.notifyDataSetChanged();
-//                }
+
+                int selected = adapter.getSelected();
+                //selected.ifPresent(integer -> adapter.setValue(integer, number));
+                if (selected != -1){
+                    adapter.setValue(selected,number);
+                    adapter.notifyDataSetChanged();
+                }
+                else{
+                    adapter.notifyDataSetChanged();
+                }
 
 
-
+            }
+        });
 
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -98,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setSelected(position);
             }
         });
+
+
+
 
 
 
