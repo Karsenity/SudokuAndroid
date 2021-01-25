@@ -1,18 +1,14 @@
 package com.example.sudoku;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.TextView;
-
-import androidx.annotation.ArrayRes;
 
 import com.example.sudoku.SudokuLogic.Board;
+import com.example.sudoku.SudokuLogic.Square;
 
 import java.util.ArrayList;
 
@@ -21,50 +17,78 @@ import static java.lang.Integer.valueOf;
 public class GridAdapter extends ArrayAdapter{
 
     private Context context;
-    private ArrayList<Integer> numberGrid;
-    private Board board;
-    private ArrayList<Integer> initialGrid;
-    private int selected;
+    private ArrayList<Boolean> numberGrid;
 
-    public GridAdapter(Context context, ArrayList<Integer> grid, ArrayList<Integer> initialGrid, Board board){
+    private Board board;
+    private int selected = -1;
+    private int columnSize;
+
+    public GridAdapter(Context context, ArrayList<Boolean> grid, Board board, int columnSize){
         super(context, R.layout.activity_main, R.id.gridView, grid);
         this.context = context;
         this.numberGrid = grid;
-        this.board = board;
-        this.initialGrid = initialGrid;
 
+        this.board = board;
+        this.columnSize = columnSize;
+    }
+
+    /*
+    Converts a call to get a square from the array into the appropriate call from
+    the "Board" class and returns the result
+     */
+    private Square getSquare(int position){
+        int y = (int) Math.floor(position / this.columnSize);
+        int x = position % this.columnSize;
+        return board.getSquare(x, y);
     }
 
 
-    // This appears to just be the draw method for the button
-    // The position is the actual button, i.e. the index
+    public boolean updateSquare(int position, int newValue){
+        int y = (int) Math.floor(position / this.columnSize);
+        int x = position % this.columnSize;
+        if (position != -1){
+            return board.updateSquare(x, y, newValue);
+        }
+        return false;
+    }
+
+    /*
+    Draw method for the Android app, draws an individual square from the Board
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        System.out.println( "getView was called");
         Button btn = new Button(context);
+        Square current = getSquare(position);
 
-        int number = initialGrid.get(position);
-
-        if (number == 0){
+        if (current.isChangeable()){
             btn.setClickable(false);
             btn.setFocusable(false);
+        } else {
+            btn.setBackgroundColor(Color.parseColor("#729ba8"));
         }
 
-
-        btn.setText(String.valueOf(number));
+        if (current.getCurrentValue() == -1){
+            btn.setText("");
+        } else {
+            btn.setText(String.valueOf(current.getCurrentValue()));
+        }
         return btn;
     }
 
+    /*
+    Indicator for which square is currently being selected on the board
+     */
     public void setSelected(int position){
         this.selected = position;
     }
 
-    public void setValue(int position, int val){
-        if (this.selected != -1) {
-            this.numberGrid.set(position, val);
-        }
-        this.selected = -1;
+    public int getSelected() {
+        return this.selected;
     }
 
-    public int getSelected(){return this.selected;}
+    public void updateSelected(int newValue){
+        updateSquare(this.selected, newValue);
+        this.selected = -1;
+        notifyDataSetChanged();
+    }
 }

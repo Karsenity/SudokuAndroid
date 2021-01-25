@@ -12,17 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class NumpadAdapter extends ArrayAdapter {
     private Context context;
     private final ArrayList<Integer> numPad;
-    private int selected;
 
 
-    public NumpadAdapter(@NonNull Context context, ArrayList<Integer> numPad) {
-        super(context, R.layout.activity_main, R.id.numPad, numPad);
+    public NumpadAdapter(@NonNull Context context, int range) {
+        super(context, R.layout.activity_main, R.id.numPad, createPad(range));
+        this.numPad = createPad(range);
         this.context = context;
-        this.numPad = numPad;
     }
 
 
@@ -34,17 +34,13 @@ public class NumpadAdapter extends ArrayAdapter {
         btn.setFocusable(false);
         return btn;
     }
-    public void setSelected(int position){
-        this.selected = position;
-    }
 
-    public void setValue(int position, int val){
-        this.numPad.set(position, val);
+    private static ArrayList<Integer> createPad(int range){
+        ArrayList<Integer> retval = new ArrayList<>();
+        for (int i=1; i <= range; i++){
+            retval.add(i);
+        }
+        return retval;
     }
-
-    public int getSelected(){
-        return this.selected;
-    }
-
 
 }
