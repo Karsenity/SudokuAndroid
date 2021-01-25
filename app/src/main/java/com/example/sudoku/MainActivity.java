@@ -19,6 +19,7 @@ import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,12 +41,16 @@ public class MainActivity extends AppCompatActivity {
         grid.setAdapter(adapter);
 
         // Testing number-bar along bottom
-        LinearLayoutManager layoutManager= new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView numPad = (RecyclerView) findViewById(R.id.numPad);
-        numPad.setLayoutManager(layoutManager);
 
-        int[] pad = new int[]{1,2,3,4,5,6,7,8,9};
-        NumpadAdapter adapter = new NumpadAdapter(this, new ArrayList<Integer>(Arra))
+//        LinearLayoutManager layoutManager= new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
+//        RecyclerView numPad = (RecyclerView) findViewById(R.id.numPad);
+//        numPad.setLayoutManager(layoutManager);
+
+        GridView numPad = (GridView) findViewById(R.id.numPad);
+        ArrayList<Integer> pad = new ArrayList<Integer>(Arrays.asList(1,2,3,4,5,6,7,8,9));
+        numPad.setNumColumns(9);
+        NumpadAdapter numPadAdapter = new NumpadAdapter(this, pad);
+        numPad.setAdapter(numPadAdapter);
 
 
 //        Button testButton = findViewById(R.id.testButton);
@@ -62,6 +67,26 @@ public class MainActivity extends AppCompatActivity {
 //
 //            }
 //        });
+
+        numPad.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                GridView grid = (GridView) findViewById(R.id.gridView);
+                GridAdapter adapter = (GridAdapter) grid.getAdapter();
+
+
+                Optional<Integer> selected = Optional.ofNullable(adapter.getSelected());
+                int number = Integer.parseInt(((TextView) view).getText().toString());
+                selected.ifPresent(integer -> adapter.setValue(integer, number));
+                adapter.notifyDataSetChanged();
+//                if( number!=0 ){
+//                    selected.ifPresent(integer -> adapter.setValue(integer, number));
+//                    adapter.notifyDataSetChanged();
+//                }
+
 
 
 
