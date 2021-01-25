@@ -20,4 +20,8 @@ public class Square {
         return this.currentValue;
     }
 
+    public boolean isChangeable(){
+        return this.isChangeable;
+    }
+
 }

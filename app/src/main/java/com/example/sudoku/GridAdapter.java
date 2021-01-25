@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.ArrayRes;
 
+import com.example.sudoku.SudokuLogic.Board;
+
 import java.util.ArrayList;
 
 import static java.lang.Integer.valueOf;
@@ -20,13 +22,15 @@ public class GridAdapter extends ArrayAdapter{
 
     private Context context;
     private ArrayList<Integer> numberGrid;
+    private Board board;
     private ArrayList<Integer> initialGrid;
     private int selected;
 
-    public GridAdapter(Context context, ArrayList<Integer> grid, ArrayList<Integer> initialGrid){
+    public GridAdapter(Context context, ArrayList<Integer> grid, ArrayList<Integer> initialGrid, Board board){
         super(context, R.layout.activity_main, R.id.gridView, grid);
         this.context = context;
         this.numberGrid = grid;
+        this.board = board;
         this.initialGrid = initialGrid;
 
     }

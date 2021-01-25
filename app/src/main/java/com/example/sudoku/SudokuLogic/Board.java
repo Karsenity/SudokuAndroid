@@ -13,12 +13,18 @@ public class Board {
     public boolean checkWin(){
         boolean win = false;
         return win;
+
     }
 
-    public boolean updateSquare(){
-        boolean updated = false;
-        return updated;
-
+    public boolean updateSquare(int x, int y, int newValue){
+        Square current = gameBoard.get(x).get(y);
+        if (current.isChangeable()){
+            current.setCurrentValue(newValue);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 }
