@@ -1,7 +1,6 @@
 package com.example.sudoku;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -63,8 +62,10 @@ public class GridAdapter extends ArrayAdapter{
         if (current.isChangeable()){
             btn.setClickable(false);
             btn.setFocusable(false);
+            btn.setBackgroundResource(R.drawable.selectable_grid_bckgd);
         } else {
-            btn.setBackgroundColor(Color.parseColor("#729ba8"));
+//            btn.setBackgroundColor(Color.parseColor("#729ba8"));
+            btn.setBackgroundResource(R.drawable.unclickable_grid_bckgd);
         }
 
         if (current.getCurrentValue() == -1){
