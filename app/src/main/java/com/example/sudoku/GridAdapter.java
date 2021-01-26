@@ -90,5 +90,17 @@ public class GridAdapter extends ArrayAdapter{
         updateSquare(this.selected, newValue);
         this.selected = -1;
         notifyDataSetChanged();
+        checkWin();
+    }
+
+    private boolean checkWin(){
+        System.out.println("Checking if win...");
+        if (board.checkWin()){
+            System.out.println("you win!");
+            return true;
+        } else {
+            System.out.println("no win yet...");
+            return false;
+        }
     }
 }

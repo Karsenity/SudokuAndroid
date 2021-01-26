@@ -15,7 +15,7 @@ public class Board {
     private int columns;
 
     public Board(int columns){
-        this.columns = 9;
+        this.columns = columns;
     }
 
     public boolean checkWin(){
