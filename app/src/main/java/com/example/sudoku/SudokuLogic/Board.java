@@ -31,8 +31,9 @@ public class Board {
 
         for (ArrayList<Configuration> configType : configTypes){
             for (Configuration config : configType){
-                Collections.sort(config.getValueSquares());
-                if(!config.equals(numbers)){win=false; break;}
+                for (int number: numbers){
+                    if (!config.getValueSquares().contains(number)){win=false;break;}
+                }
             }
         }
         return win;
