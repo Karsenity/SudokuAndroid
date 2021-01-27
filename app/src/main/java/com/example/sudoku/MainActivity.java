@@ -15,6 +15,8 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.sudoku.SudokuLogic.Board;
+
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
@@ -31,79 +33,42 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //TODO: Replace example grid below with function in Board for generating
+        // random board on creation
+
+        // Example grid being used for testing
+        int[][] exampleGrid = ExampleGrid.returnExampleGrid();
+        // Create the board for the game
+        int columns = 9;
+        Board board = new Board(columns);
+        board.initGameBoard(exampleGrid);
+
+        // Find the GridView from activity_main.xml and attach the adapter
         GridView grid = (GridView) findViewById(R.id.gridView);
-
-        grid.setNumColumns(9);
-        ExampleGrid example = new ExampleGrid();
-        ArrayList<Integer> exampleGrid = example.returnExampleGrid();
-        ArrayList<Integer> initialGrid = exampleGrid;
-
-        GridAdapter adapter = new GridAdapter(this, exampleGrid, initialGrid);
+        grid.setNumColumns(columns);
+        GridAdapter adapter = new GridAdapter(this, ExampleGrid.booleanGrid(exampleGrid), board, 9);
         grid.setAdapter(adapter);
 
-        // Testing number-bar along bottom
-
-//        LinearLayoutManager layoutManager= new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
-//        RecyclerView numPad = (RecyclerView) findViewById(R.id.numPad);
-//        numPad.setLayoutManager(layoutManager);
-
+        // Find the NumPad from activity_main.xml and attach the corresponding adapter
         GridView numPad = (GridView) findViewById(R.id.numPad);
-        ArrayList<Integer> pad = new ArrayList<Integer>(Arrays.asList(1,2,3,4,5,6,7,8,9));
-        numPad.setNumColumns(9);
-        NumpadAdapter numPadAdapter = new NumpadAdapter(this, pad);
+        numPad.setNumColumns(columns);
+        NumpadAdapter numPadAdapter = new NumpadAdapter(this, columns);
         numPad.setAdapter(numPadAdapter);
 
 
-//        Button testButton = findViewById(R.id.testButton);
-//        testButton.setOnClickListener(new AdapterView.OnClickListener() {
-//
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            @Override
-//            public void onClick(View v) {
-//                GridView grid = (GridView) findViewById(R.id.gridView);
-//                GridAdapter adapter = (GridAdapter) grid.getAdapter();
-//                Optional<Integer> selected = Optional.ofNullable(adapter.getSelected());
-//                selected.ifPresent(integer -> adapter.setValue(integer, 1));
-//                adapter.notifyDataSetChanged();
-//
-//            }
-//        });
+        numPad.setOnItemClickListener((AdapterView.OnItemClickListener) (parent, view, position, id) -> {
+            GridView grid1 = (GridView) findViewById(R.id.gridView);
+            GridAdapter adapter1 = (GridAdapter) grid1.getAdapter();
 
-        adapter.setSelected(-1);
-        numPad.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                GridView grid = (GridView) findViewById(R.id.gridView);
-                GridAdapter adapter = (GridAdapter) grid.getAdapter();
-
-
-//                Optional<Integer> selected = Optional.ofNullable(adapter.getSelected());
-                int number = Integer.parseInt(((TextView) view).getText().toString());
-
-                int selected = adapter.getSelected();
-                //selected.ifPresent(integer -> adapter.setValue(integer, number));
-                if (selected != -1){
-                    adapter.setValue(selected,number);
-                    adapter.notifyDataSetChanged();
-                }
-                else{
-                    adapter.notifyDataSetChanged();
-                }
-
-
-            }
+            int clickedValue = Integer.parseInt(((TextView) view).getText().toString());
+            adapter1.updateSelected(clickedValue);
         });
 
-        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GridView grid = findViewById(R.id.gridView);
-                GridAdapter adapter = (GridAdapter) grid.getAdapter();
-                adapter.setSelected(position);
-            }
+        grid.setOnItemClickListener((parent, view, position, id) -> {
+            GridView grid12 = findViewById(R.id.gridView);
+            GridAdapter adapter12 = (GridAdapter) grid12.getAdapter();
+            adapter12.setSelected(position);
         });
 
 

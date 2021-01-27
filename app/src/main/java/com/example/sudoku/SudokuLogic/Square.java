@@ -12,8 +12,9 @@ public class Square {
     }
 
     public void setCurrentValue(int newValue){
-        this.currentValue = newValue;
-
+        if (this.isChangeable){
+            this.currentValue = newValue;
+        }
     }
 
     public int getCurrentValue(){
