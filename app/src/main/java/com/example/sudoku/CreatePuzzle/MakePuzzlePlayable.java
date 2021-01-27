@@ -8,7 +8,9 @@ import java.util.Random;
 
 public class MakePuzzlePlayable {
 
-    public  void makePuzzlePlayable(ArrayList<ArrayList<Square>> beep){
+    public  void makePuzzlePlayable(ArrayList<ArrayList<Square>> rawBoard, int entriesRemoved){
+
+
 
     }
 
