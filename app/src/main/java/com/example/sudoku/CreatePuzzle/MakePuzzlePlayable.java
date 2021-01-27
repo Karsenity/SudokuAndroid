@@ -9,8 +9,26 @@ import java.util.Random;
 public class MakePuzzlePlayable {
 
     public  void makePuzzlePlayable(ArrayList<ArrayList<Square>> rawBoard, int entriesRemoved){
+        Random rand = new Random();
 
+        permuteNumbers(rawBoard);
 
+        int num = rand.nextInt(4);
+        for (int i=0; i<num; i++){
+            rotateBoard(rawBoard);
+        }
+
+        num = rand.nextInt(2);
+        for (int i=0; i<num; i++){
+            flipBoardHorizontal(rawBoard);
+        }
+
+        num = rand.nextInt(2);
+        for (int i=0; i<num; i++){
+            flipBoardVertical(rawBoard);
+        }
+
+        removeNumbers(rawBoard, entriesRemoved);
 
     }
 
@@ -28,7 +46,7 @@ public class MakePuzzlePlayable {
         }
     }
 
-    public ArrayList<ArrayList<Square>> rotateBoard(ArrayList<ArrayList<Square>> rawBoard){
+    public void rotateBoard(ArrayList<ArrayList<Square>> rawBoard){
         ArrayList<ArrayList<Square>> newBoard = new ArrayList<>();
         for (int i=0; i<rawBoard.size(); i++){
             ArrayList<Square> newRow = new ArrayList<>();
@@ -38,10 +56,10 @@ public class MakePuzzlePlayable {
             }
             newBoard.add(newRow);
         }
-        return newBoard;
+        rawBoard = newBoard;
     }
 
-    public ArrayList<ArrayList<Square>> flipBoardHorizontal(ArrayList<ArrayList<Square>> rawBoard){
+    public void flipBoardHorizontal(ArrayList<ArrayList<Square>> rawBoard){
         ArrayList<ArrayList<Square>> newBoard = new ArrayList<>();
         for (int i=0; i<rawBoard.size(); i++){
             ArrayList<Square> newRow = new ArrayList<>();
@@ -51,10 +69,10 @@ public class MakePuzzlePlayable {
             }
             newBoard.add(newRow);
         }
-        return newBoard;
+        rawBoard = newBoard;
     }
 
-    public ArrayList<ArrayList<Square>> flipBoardVertical(ArrayList<ArrayList<Square>> rawBoard){
+    public void flipBoardVertical(ArrayList<ArrayList<Square>> rawBoard){
         ArrayList<ArrayList<Square>> newBoard = new ArrayList<>();
         for (int i=0; i<rawBoard.size(); i++){
             ArrayList<Square> newRow = new ArrayList<>();
@@ -64,7 +82,7 @@ public class MakePuzzlePlayable {
             }
             newBoard.add(newRow);
         }
-        return newBoard;
+        rawBoard = newBoard;
     }
 
     public void removeNumbers(ArrayList<ArrayList<Square>> rawBoard, int numToRemove){
