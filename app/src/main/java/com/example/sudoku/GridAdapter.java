@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.TextView;
 
 import com.example.sudoku.SudokuLogic.Board;
 import com.example.sudoku.SudokuLogic.Square;
@@ -19,13 +21,18 @@ public class GridAdapter extends ArrayAdapter{
     private ArrayList<Boolean> numberGrid;
 
     private Board board;
+    private TextView winView;
     private int selected = -1;
     private int columnSize;
 
-    public GridAdapter(Context context, ArrayList<Boolean> grid, Board board, int columnSize){
+
+
+    public GridAdapter(Context context, ArrayList<Boolean> grid, Board board, TextView winView, int columnSize){
         super(context, R.layout.activity_main, R.id.gridView, grid);
         this.context = context;
         this.numberGrid = grid;
+        this.winView = winView;
+
 
         this.board = board;
         this.columnSize = columnSize;
@@ -36,15 +43,15 @@ public class GridAdapter extends ArrayAdapter{
     the "Board" class and returns the result
      */
     private Square getSquare(int position){
-        int y = (int) Math.floor(position / this.columnSize);
-        int x = position % this.columnSize;
+        int x = (int) Math.floor(position / this.columnSize);
+        int y = position % this.columnSize;
         return board.getSquare(x, y);
     }
 
 
     public boolean updateSquare(int position, int newValue){
-        int y = (int) Math.floor(position / this.columnSize);
-        int x = position % this.columnSize;
+        int x = (int) Math.floor(position / this.columnSize);
+        int y = position % this.columnSize;
         if (position != -1){
             return board.updateSquare(x, y, newValue);
         }
@@ -94,14 +101,12 @@ public class GridAdapter extends ArrayAdapter{
         checkWin();
     }
 
-    private boolean checkWin(){
-        System.out.println("Checking if win...");
+    public boolean checkWin(){
+
         if (board.checkWin()){
-            System.out.println("you win!");
+            winView.setVisibility(View.VISIBLE);
             return true;
-        } else {
-            System.out.println("no win yet...");
-            return false;
         }
+        else { return false; }
     }
 }

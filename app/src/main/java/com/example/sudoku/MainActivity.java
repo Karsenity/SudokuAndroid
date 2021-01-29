@@ -46,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Find the GridView from activity_main.xml and attach the adapter
         GridView grid = (GridView) findViewById(R.id.gridView);
+        TextView winView = (TextView) findViewById(R.id.winView);
         grid.setNumColumns(columns);
-        GridAdapter adapter = new GridAdapter(this, ExampleGrid.booleanGrid(exampleGrid), board, 9);
+        GridAdapter adapter = new GridAdapter(this, ExampleGrid.booleanGrid(exampleGrid), board, winView, 9);
         grid.setAdapter(adapter);
 
         // Find the NumPad from activity_main.xml and attach the corresponding adapter
@@ -71,13 +72,25 @@ public class MainActivity extends AppCompatActivity {
             adapter12.setSelected(position);
         });
 
+        Button eraser = (Button) findViewById(R.id.eraser);
+        eraser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GridView grid3 = findViewById(R.id.gridView);
+                GridAdapter adapter3 = (GridAdapter) grid3.getAdapter();
+                int selected = adapter3.getSelected();
+                if (selected!= -1){adapter3.updateSelected(-1); }
 
-
-
-
-
-
-
+            }
+        });
+//
+//        Button checkWin = (Button) findViewById(R.id.checkWin);
+//        checkWin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                adapter.checkWin();
+//            }
+//        });
 
 
     }
