@@ -16,7 +16,6 @@ import static java.lang.Integer.valueOf;
 public class GridAdapter extends ArrayAdapter{
 
     private Context context;
-    private ArrayList<Boolean> numberGrid;
 
     private Board board;
     private int selected = -1;
@@ -25,8 +24,6 @@ public class GridAdapter extends ArrayAdapter{
     public GridAdapter(Context context, ArrayList<Boolean> grid, Board board, int columnSize){
         super(context, R.layout.activity_main, R.id.gridView, grid);
         this.context = context;
-        this.numberGrid = grid;
-
         this.board = board;
         this.columnSize = columnSize;
     }
