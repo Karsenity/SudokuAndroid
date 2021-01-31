@@ -1,21 +1,27 @@
 package com.example.sudoku.SudokuLogic;
 
+import com.example.sudoku.CreatePuzzle.CreatePuzzle;
+import com.example.sudoku.CreatePuzzle.GridFromFile;
 import com.example.sudoku.SudokuLogic.ConfigGenerators.BlockGenerator;
 import com.example.sudoku.SudokuLogic.ConfigGenerators.ColumnGenerator;
 import com.example.sudoku.SudokuLogic.ConfigGenerators.RowGenerator;
 
+import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Scanner;
 
 public class Board {
     private ArrayList<ArrayList<Square>> gameBoard;
     private ArrayList<Configuration> Configurations;
     private int columns;
 
-    public Board(int columns){
+    public Board(int columns, int missingSquares, ArrayList<ArrayList<Square>> initialBoard) {
         this.columns = columns;
+        CreatePuzzle puzzleBuilder = new CreatePuzzle();
+        this.gameBoard = puzzleBuilder.makePuzzlePlayable(initialBoard, missingSquares);
     }
 
     public boolean checkWin(){
@@ -52,26 +58,37 @@ public class Board {
         }
     }
 
+    public ArrayList<Boolean> buildBooleanGrid(){
+        ArrayList<Boolean> retval = new ArrayList<>();
+        for (int i=0; i<this.gameBoard.size(); i++){
+            for (int j=0; j<this.gameBoard.size(); j++){
+                int current = this.gameBoard.get(i).get(j).getCurrentValue();
+                retval.add(current == 0);
+            }
+        }
+        return retval;
+    }
+
     public Square getSquare(int x, int y){
         return gameBoard.get(x).get(y);
     }
 
-    public void initGameBoard(int[][] grid){
-        this.gameBoard = new ArrayList<>();
-
-        for (int i=0; i < this.columns; i++){
-            this.gameBoard.add(new ArrayList<Square>());
-        }
-
-        for (int i=0; i<grid.length; i++){
-            for (int j=0; j<grid.length; j++){
-                int current = grid[i][j];
-                if (current == 0){
-                    this.gameBoard.get(i).add(new Square(true, -1));
-                } else {
-                    this.gameBoard.get(i).add(new Square(false, grid[i][j]));
-                }
-            }
-        }
-    }
+//    public void initGameBoard(int[][] grid){
+//        this.gameBoard = new ArrayList<>();
+//
+//        for (int i=0; i < this.columns; i++){
+//            this.gameBoard.add(new ArrayList<Square>());
+//        }
+//
+//        for (int i=0; i<grid.length; i++){
+//            for (int j=0; j<grid.length; j++){
+//                int current = grid[i][j];
+//                if (current == 0){
+//                    this.gameBoard.get(i).add(new Square(true, -1));
+//                } else {
+//                    this.gameBoard.get(i).add(new Square(false, grid[i][j]));
+//                }
+//            }
+//        }
+//    }
 }
