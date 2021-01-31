@@ -8,7 +8,12 @@ import com.example.sudoku.SudokuLogic.ConfigGenerators.RowGenerator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+/*
+The following code is functional but not optimal. Should generate random Sudoku boards until a complete
+one is generated. Not every board is usable; will sometimes result in an overflow error if no board
+is found.
 
+ */
 public class GeneratePuzzle {
 
     public ArrayList<ArrayList<Square>>  generatePuzzle(int boardLength) {

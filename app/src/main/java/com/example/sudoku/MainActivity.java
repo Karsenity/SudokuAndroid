@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Create the board for the game
         int columns = 9;
-        int missingSquares = 1;
+        int missingSquares = 36;
         Board board = null;
         ArrayList<ArrayList<Square>> initialBoard = null;
         try {
@@ -75,19 +75,9 @@ public class MainActivity extends AppCompatActivity {
                 GridView grid3 = findViewById(R.id.gridView);
                 GridAdapter adapter3 = (GridAdapter) grid3.getAdapter();
                 int selected = adapter3.getSelected();
-                if (selected!= -1){adapter3.updateSelected(-1); }
+                if (selected!= -1){adapter3.updateSelected(0); }
 
             }
         });
-//
-//        Button checkWin = (Button) findViewById(R.id.checkWin);
-//        checkWin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                adapter.checkWin();
-//            }
-//        });
-
-
     }
 }
