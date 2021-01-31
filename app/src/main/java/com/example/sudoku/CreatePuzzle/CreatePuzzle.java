@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class CreatePuzzle {
 
-    public void makePuzzlePlayable(ArrayList<ArrayList<Square>> rawBoard, int entriesRemoved){
+    public ArrayList<ArrayList<Square>> makePuzzlePlayable(ArrayList<ArrayList<Square>> rawBoard, int entriesRemoved){
         Random rand = new Random();
 
         permuteNumbers(rawBoard);
@@ -30,6 +30,21 @@ public class CreatePuzzle {
 
         removeNumbers(rawBoard, entriesRemoved);
 
+        ArrayList<ArrayList<Square>> newBoard = new ArrayList<>();
+        for (ArrayList<Square> row: rawBoard){
+            ArrayList<Square> newRow = new ArrayList<>();
+            for (Square s: row){
+                Square current;
+                if (s.getCurrentValue() == 0){
+                    current = new Square(true, s.getCurrentValue());
+                } else {
+                    current = new Square(false, s.getCurrentValue());
+                }
+                newRow.add(current);
+            }
+            newBoard.add(newRow);
+        }
+    return newBoard;
     }
 
     public void permuteNumbers(ArrayList<ArrayList<Square>> rawBoard){
@@ -94,6 +109,34 @@ public class CreatePuzzle {
 
             Square toRemove = rawBoard.get(number1).get(number2);
             toRemove.setCurrentValue(0);
+        }
+    }
+
+
+    public static void main(String[] args) {
+        ArrayList<ArrayList<Square>> testBoard = new ArrayList<>();
+        for (int i=1; i<4; i++){
+            ArrayList<Square> row = new ArrayList<>();
+            for (int j=1; j<4; j++){
+                Square current = new Square(true, j);
+                row.add(current);
+            }
+            testBoard.add(row);
+        }
+        CreatePuzzle puzzleBuilder = new CreatePuzzle();
+        for (ArrayList<Square> row: testBoard){
+            for (Square s: row){
+                System.out.print(s.getCurrentValue() + " ");
+            }
+            System.out.println();
+        }
+        puzzleBuilder.makePuzzlePlayable(testBoard, 5);
+        System.out.println();
+        for (ArrayList<Square> row: testBoard){
+            for (Square s: row){
+                System.out.print(s.getCurrentValue() + " ");
+            }
+            System.out.println();
         }
     }
 

@@ -68,7 +68,7 @@ public class GridAdapter extends ArrayAdapter{
             btn.setBackgroundResource(R.drawable.unclickable_grid_bckgd);
         }
 
-        if (current.getCurrentValue() == -1){
+        if (current.getCurrentValue() == 0){
             btn.setText("");
         } else {
             btn.setText(String.valueOf(current.getCurrentValue()));

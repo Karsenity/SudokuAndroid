@@ -29,7 +29,7 @@ public class GridFromFile {
             String line = sc.nextLine();
             String[] splitLine = line.split(" ");
             for (String s : splitLine) {
-                Square current = new Square(false, Integer.parseInt(s));
+                Square current = new Square(true, Integer.parseInt(s));
                 row.add(current);
             }
             board.add(row);

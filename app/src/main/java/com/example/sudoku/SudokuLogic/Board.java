@@ -21,8 +21,7 @@ public class Board {
     public Board(int columns, int missingSquares, ArrayList<ArrayList<Square>> initialBoard) {
         this.columns = columns;
         CreatePuzzle puzzleBuilder = new CreatePuzzle();
-        this.gameBoard = initialBoard;
-        puzzleBuilder.makePuzzlePlayable(this.gameBoard, missingSquares);
+        this.gameBoard = puzzleBuilder.makePuzzlePlayable(initialBoard, missingSquares);
     }
 
     public boolean checkWin(){
@@ -64,11 +63,7 @@ public class Board {
         for (int i=0; i<this.gameBoard.size(); i++){
             for (int j=0; j<this.gameBoard.size(); j++){
                 int current = this.gameBoard.get(i).get(j).getCurrentValue();
-                if (current == 0){
-                    retval.add(true);
-                } else {
-                    retval.add(false);
-                }
+                retval.add(current == 0);
             }
         }
         return retval;

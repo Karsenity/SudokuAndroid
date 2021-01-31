@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Create the board for the game
         int columns = 9;
-        int missingSquares = 45;
+        int missingSquares = 1;
         Board board = null;
         ArrayList<ArrayList<Square>> initialBoard = null;
         try {
