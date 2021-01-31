@@ -1,28 +1,22 @@
 package com.example.sudoku;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.sudoku.CreatePuzzle.GridFromFile;
 import com.example.sudoku.SudokuLogic.Board;
+import com.example.sudoku.SudokuLogic.Square;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,20 +28,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //TODO: Replace example grid below with function in Board for generating
-        // random board on creation
-
-        // Example grid being used for testing
-        int[][] exampleGrid = ExampleGrid.returnExampleGrid();
         // Create the board for the game
         int columns = 9;
-        Board board = new Board(columns);
-        board.initGameBoard(exampleGrid);
-
+        int missingSquares = 45;
+        Board board = null;
+        ArrayList<ArrayList<Square>> initialBoard = null;
+        try {
+            initialBoard = GridFromFile.getRandomBoard(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        board = new Board(columns, missingSquares, initialBoard);
         // Find the GridView from activity_main.xml and attach the adapter
         GridView grid = (GridView) findViewById(R.id.gridView);
         grid.setNumColumns(columns);
-        GridAdapter adapter = new GridAdapter(this, ExampleGrid.booleanGrid(exampleGrid), board, 9);
+        GridAdapter adapter = new GridAdapter(this, board.buildBooleanGrid(), board, 9);
         grid.setAdapter(adapter);
 
         // Find the NumPad from activity_main.xml and attach the corresponding adapter

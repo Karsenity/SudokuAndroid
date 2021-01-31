@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class MakePuzzlePlayable {
+public class CreatePuzzle {
 
-    public  void makePuzzlePlayable(ArrayList<ArrayList<Square>> rawBoard, int entriesRemoved){
+    public void makePuzzlePlayable(ArrayList<ArrayList<Square>> rawBoard, int entriesRemoved){
         Random rand = new Random();
 
         permuteNumbers(rawBoard);
